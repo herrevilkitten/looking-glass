@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        box-shadow: inset 0 0 10px purple;
+      }
+
+      * {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: rgba(0, 0, 0, 0);
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@latest/dist/svg.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const { ipcRenderer } = require("electron");
+
+      SVG.on(document, "DOMContentLoaded", function () {
+        const draw = SVG().addTo("body").size("100%", "100%");
+
+        const height = window.screen.height;
+        const width = window.screen.width;
+
+        draw
+          .line(0, height / 3, width, height / 3)
+          .stroke({ width: 2, color: "#6f0" });
+        draw
+          .line(0, (height * 2) / 3, width, (height * 2) / 3)
+          .stroke({ width: 2, color: "#6f0" });
+        draw
+          .line(width / 3, 0, width / 3, height)
+          .stroke({ width: 2, color: "#6f0" });
+        draw
+          .line((width * 2) / 3, 0, (width * 2) / 3, height)
+          .stroke({ width: 2, color: "#6f0" });
+
+        ipcRenderer.on("indexFinger", (event, coordinates) => {
+          console.log(coordinates);
+          const [x, y, z] = coordinates;
+          draw.circle(20).fill("#0f0").move(x, y);
+        });
+      });
+    </script>
+  </body>
+</html>
