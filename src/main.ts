@@ -35,6 +35,7 @@ function createDisplay(json: any) {
     fullscreen: true,
     simpleFullscreen: true,
     alwaysOnTop: true,
+    frame:false,
     webPreferences: {
       nodeIntegration: true,
     },

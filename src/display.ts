@@ -31,11 +31,18 @@ export class Display extends BrowserWindow {
   isAutoRepeat: false,
   shift: false,
   control: false,
-  alt: false,
+  alt: false,F
   meta: true
 }
 */
-      if (input.code === "KeyW" && input.meta) {
+      let meta = false;
+      if (process.platform === "darwin") {
+        meta = input.meta;
+      } else {
+        meta = input.control;
+      }
+
+      if (input.code === "KeyW" && meta) {
         this.close();
       }
     });
