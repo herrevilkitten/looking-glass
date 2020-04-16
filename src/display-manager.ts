@@ -1,4 +1,4 @@
-import { Display } from "./window";
+import { Display } from "./display";
 
 export class DisplayManager {
   displays: Set<Display> = new Set();

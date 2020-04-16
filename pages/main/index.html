@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Looking Glass</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-touch.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-route.min.js"></script>
+  <script src="https://unpkg.com/@angular/router@0.2.0/angular1/angular_1_router.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"
+    integrity="sha256-tyfWW2LtJQNI+l3F0h6xDV/ij6Mfn8lwSKHWOsmEgXM="
+    crossorigin="anonymous"
+  ></script>
+
+  <script type="text/javascript">
+    angular
+      .element(document.getElementsByTagName("head"))
+      .append(
+        angular.element('<base href="' + window.location.pathname + '" />')
+      );
+  </script>
+
+  <script src="./index.js"></script>
+
+  <body ng-app="LookingGlass">
+    <looking-glass-app></looking-glass-app>
+    <script src="components/app/component.js"></script>
+    <script src="components/dashboard/component.js"></script>
+    <script src="components/display/component.js"></script>
+    <script src="components/display-builder/component.js"></script>
+    <script src="components/remote/component.js"></script>
+    <script src="components/preferences/component.js"></script>
+
+    <script src="services/display.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 looking-glass-menu">
+      
+      <div class="btn-group-vertical" role="group" style="margin-top: 2rem;">
+        <a ng-link="['LookingGlassDashboard']" class="btn btn-default">Dashboard</a>
+      </div>
+      
+      <div class="btn-group-vertical" role="group" style="margin-top: 0.5rem;">
+        <a ng-link="['LookingGlassDisplay']" class="btn btn-default">Displays</a>
+        <a ng-link="['LookingGlassDisplayBuilder']" class="btn btn-default">Display Builder</a>
+        <a ng-link="['LookingGlassRemote']" class="btn btn-default">Remote</a>
+      </div>
+      <div class="btn-group-vertical" role="group" style="margin-top: 0.5rem;">
+        <a ng-link="['LookingGlassPreferences']" class="btn btn-default">Preferences</a>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <ng-outlet></ng-outlet>
+    </div>
+  </div>
+</div>

@@ -9,7 +9,36 @@ export class Display extends BrowserWindow {
   constructor(args?: BrowserWindowConstructorOptions) {
     super(args);
 
+    this.on("close", () => {
+      console.log("Closing window");
+      this.getBrowserViews().forEach((browserView) => {
+        this.removeBrowserView(browserView);
+        browserView.destroy();
+      });
+      this.setFullScreen(false);
+    });
+
     this.addLayer(new Layer());
+
+    this.webContents.on("before-input-event", (event, input) => {
+      //      console.log(event);
+      console.log(input);
+      /*
+      {
+  type: 'keyDown',
+  key: 'w',
+  code: 'KeyW',
+  isAutoRepeat: false,
+  shift: false,
+  control: false,
+  alt: false,
+  meta: true
+}
+*/
+      if (input.code === "KeyW" && input.meta) {
+        this.close();
+      }
+    });
   }
 
   paint() {
@@ -55,7 +84,7 @@ export class Display extends BrowserWindow {
     });
 
     layer.addListener("remove-widget", (widget: Widget) => {
-//      console.log("remove-widget", widget);
+      //      console.log("remove-widget", widget);
       this.removeWidget(widget);
     });
   }

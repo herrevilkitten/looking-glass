@@ -2,7 +2,7 @@ import { BrowserView } from "electron";
 
 import { Widget } from "./widget";
 import { EventEmitter } from "events";
-import { Display } from "./window";
+import { Display } from "./display";
 
 export interface LayerConstructorOptions {
   id?: string;
