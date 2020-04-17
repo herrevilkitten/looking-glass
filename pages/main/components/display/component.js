@@ -8,7 +8,12 @@ angular.module("LookingGlass").component("lookingGlassDisplay", {
       const { ipcRenderer } = require("electron");
 
       console.log($ctrl.emptyDisplayConfiguration);
-      const json = JSON.parse($ctrl.emptyDisplayConfiguration || "[]");
+      let json;
+      try {
+        json = JSON.parse($ctrl.emptyDisplayConfiguration || "[]");
+      } catch (e) {
+        json = jsyaml.load($ctrl.emptyDisplayConfiguration || "[]");
+      }
       console.log("Launching a display:", json);
       ipcRenderer.send("launch-display", json);
     };
