@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"
+    />
+
+    <style>
+      body,
+      html,
+      iframe {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe
+      id="youtube"
+      src=""
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </body>
+  <script>
+    const searchParams = new URLSearchParams(window.location.search);
+    console.log(searchParams.toString());
+
+    const source = searchParams.get("source") || "";
+
+    window.addEventListener("load", () => {
+      document.getElementById(
+        "youtube"
+      ).src = `https://www.youtube.com/embed/${source}`;
+    });
+  </script>
+</html>

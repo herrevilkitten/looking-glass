@@ -54,7 +54,7 @@ export class Widget extends BrowserView {
 
     this.webContents.on("before-input-event", (event, input) => {
       //      console.log(event);
-      console.log(input);
+      //      console.log(input);
       /*
       {
   type: 'keyDown',
@@ -67,7 +67,14 @@ export class Widget extends BrowserView {
   meta: true
 }
 */
-      if (input.code === "KeyW" && input.meta) {
+      let meta = false;
+      if (process.platform === "darwin") {
+        meta = input.meta;
+      } else {
+        meta = input.control;
+      }
+
+      if (input.code === "KeyW" && meta) {
         if (this.attached) {
           this.attached.close();
         }

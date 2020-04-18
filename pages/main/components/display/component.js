@@ -11,8 +11,10 @@ angular.module("LookingGlass").component("lookingGlassDisplay", {
       let json;
       try {
         json = JSON.parse($ctrl.emptyDisplayConfiguration || "[]");
+        console.log("Parsed it as json:", json);
       } catch (e) {
         json = jsyaml.load($ctrl.emptyDisplayConfiguration || "[]");
+        console.log("Parsed it as yaml:", json);
       }
       console.log("Launching a display:", json);
       ipcRenderer.send("launch-display", json);

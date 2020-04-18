@@ -26,8 +26,8 @@ window.addEventListener(
 
         //        if (source) {
         videoConstraints = {
-          width: { ideal: 4096 },
-          height: { ideal: 2160 },
+//          width: { ideal: 4096 },
+          height: { ideal: 720 },
         };
         if (id) {
           videoConstraints.deviceId = { exact: id };

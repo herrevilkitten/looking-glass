@@ -12,7 +12,7 @@ export class DesktopCaptureWidget extends Widget {
 
     this.webContents.on("before-input-event", (event, input) => {
       //      console.log(event);
-      console.log(input);
+      console.log("Capture:", input);
       /*
       {
   type: 'keyDown',
@@ -25,12 +25,18 @@ export class DesktopCaptureWidget extends Widget {
   meta: true
 }
 */
-      if (input.code === "KeyS" && input.meta) {
+      let meta = false;
+      if (process.platform === "darwin") {
+        meta = input.meta;
+      } else {
+        meta = input.control;
+      }
+
+      if (input.code === "KeyS" && meta) {
         this.webContents.send("select-source");
       }
     });
 
-    
     this.webContents.loadFile("../widgets/desktop-capture.html", {
       search: `source=${opts.source || ""}`,
     });

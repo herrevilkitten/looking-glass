@@ -22,19 +22,21 @@ app.commandLine.appendArgument("--enable-features=Metal");
 import { stuff } from "./sample-display";
 import { WebcamWidget } from "./widgets/webcam-widget";
 import { DesktopCaptureWidget } from "./widgets/desktop-capture-widget";
+import { YoutubeWidget } from "./widgets/youtube-widget";
 
 const WIDGETS = {
   web: WebWidget,
   widget: Widget,
   webcam: WebcamWidget,
   "desktop-capture": DesktopCaptureWidget,
+  "youtube": YoutubeWidget,
 };
 
 function createDisplay(json: any) {
   const display = new Display({
     fullscreen: true,
     simpleFullscreen: true,
-    alwaysOnTop: true,
+//    alwaysOnTop: true,
     frame:false,
     webPreferences: {
       nodeIntegration: true,
@@ -58,11 +60,12 @@ function createDisplay(json: any) {
       json = [json];
     }
 
+    console.log(json);
     for (let config of json) {
       if (!config || !config.type) {
         continue;
       }
-      const type: keyof typeof WIDGETS = config.type;
+      const type: keyof typeof WIDGETS = (config.type.toLowerCase());
       const url = config.url;
       const file = config.file;
 
@@ -70,6 +73,7 @@ function createDisplay(json: any) {
         continue;
       }
 
+      console.log("Creating Widget:", config);
       const newWidget = new WIDGETS[type](config);
       if (config.showDevConsole) {
         newWidget.webContents.on("did-finish-load", () => {
@@ -119,6 +123,10 @@ app.on("ready", () => {
   });
 
   dashboardWindow.loadFile("../pages/main/index.html");
+
+  dashboardWindow.on("close", () => {
+    process.exit();
+  });
 
   ipcMain.on("widget-log", (event, ...args) => {
     console.log(args);
