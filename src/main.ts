@@ -39,7 +39,7 @@ function createDisplay(json: any) {
     fullscreen: true,
     simpleFullscreen: true,
     //    alwaysOnTop: true,
-    //    frame:false,
+    frame: process.platform === "darwin",
     webPreferences: {
       nodeIntegration: true,
     },
