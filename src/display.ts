@@ -21,20 +21,7 @@ export class Display extends BrowserWindow {
     this.addLayer(new Layer());
 
     this.webContents.on("before-input-event", (event, input) => {
-      //      console.log(event);
       console.log(input);
-      /*
-      {
-  type: 'keyDown',
-  key: 'w',
-  code: 'KeyW',
-  isAutoRepeat: false,
-  shift: false,
-  control: false,
-  alt: false,F
-  meta: true
-}
-*/
       let meta = false;
       if (process.platform === "darwin") {
         meta = input.meta;

@@ -23,21 +23,23 @@ import { stuff } from "./sample-display";
 import { WebcamWidget } from "./widgets/webcam-widget";
 import { DesktopCaptureWidget } from "./widgets/desktop-capture-widget";
 import { YoutubeWidget } from "./widgets/youtube-widget";
+import { QrCodeWidget } from "./widgets/qr-code-widget";
 
 const WIDGETS = {
   web: WebWidget,
   widget: Widget,
   webcam: WebcamWidget,
   "desktop-capture": DesktopCaptureWidget,
-  "youtube": YoutubeWidget,
+  youtube: YoutubeWidget,
+  qrcode: QrCodeWidget,
 };
 
 function createDisplay(json: any) {
   const display = new Display({
     fullscreen: true,
     simpleFullscreen: true,
-//    alwaysOnTop: true,
-    frame:false,
+    //    alwaysOnTop: true,
+    //    frame:false,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -65,7 +67,7 @@ function createDisplay(json: any) {
       if (!config || !config.type) {
         continue;
       }
-      const type: keyof typeof WIDGETS = (config.type.toLowerCase());
+      const type: keyof typeof WIDGETS = config.type.toLowerCase();
       const url = config.url;
       const file = config.file;
 
@@ -75,15 +77,19 @@ function createDisplay(json: any) {
 
       console.log("Creating Widget:", config);
       const newWidget = new WIDGETS[type](config);
+      console.log(`Created new widget: ${newWidget.name}`);
+
       if (config.showDevConsole) {
         newWidget.webContents.on("did-finish-load", () => {
           console.log("Loaded page");
           newWidget.webContents.openDevTools();
         });
       }
+
       newWidget.webContents.on("did-fail-load", (event, ...errors) => {
         console.log(errors);
       });
+
       layer.addWidget(newWidget);
       console.log(newWidget);
     }

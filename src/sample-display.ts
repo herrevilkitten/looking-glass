@@ -16,7 +16,7 @@ export function stuff() {
     const layer = display.getLayers()[0];
 
     const svgWidget = new Widget({
-      grid: "full",
+      position: "full",
     });
     svgWidget.webContents.loadFile("../widgets/svg.html");
     svgWidget.webContents.on("did-finish-load", () => {
@@ -25,17 +25,17 @@ export function stuff() {
     layer.addWidget(svgWidget);
 
     const googleWidget = new Widget({
-      grid: {
-        position: 11,
-        width: 2,
-        height: 6,
-      },
+      position: 11,
+      width: 2,
+      height: 6,
     });
     googleWidget.webContents.loadFile("../widgets/buttons.html");
     layer.addWidget(googleWidget);
 
     const t = new WebWidget({
-      grid: { position: 1, width: 4, height: "full" },
+      position: 1,
+      width: 4,
+      height: "full",
       //grid:{origin: 'full'},
       url: "https://salesforce.quip.com/Xa9xARNwdCWK",
     });

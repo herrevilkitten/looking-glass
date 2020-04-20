@@ -1,8 +1,8 @@
 import { Display } from "../display";
-import { WidgetConstructorOptions } from "../widget";
+import { BrowserWindowConstructorOptions } from "electron";
 
 export class RemoteControlDisplay extends Display {
-  constructor(opts: WidgetConstructorOptions) {
+  constructor(opts: BrowserWindowConstructorOptions) {
     super(opts);
   }
 }
