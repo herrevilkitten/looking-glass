@@ -29,8 +29,38 @@ export class Display extends BrowserWindow {
         meta = input.control;
       }
 
-      if (input.code === "KeyW" && meta) {
-        this.close();
+      if (meta) {
+        if (input.code === "KeyW") {
+          this.close();
+          return;
+        } else if (input.code.startsWith("Digit")) {
+          const widgetNumber = Number(input.code.replace("Digit", ""));
+          if (widgetNumber === 0) {
+            return;
+          }
+          const widgetArray = Array.from(this.widgets);
+          console.log(widgetNumber);
+          console.log(this.widgets);
+          const toggleWidget = widgetArray[widgetNumber - 1];
+          if (!toggleWidget) {
+            console.warn(`No widget matching ${widgetNumber}`);
+            return;
+          }
+
+          if (toggleWidget.hideCss) {
+            toggleWidget.webContents
+              .removeInsertedCSS(toggleWidget.hideCss)
+              .then(() => {
+                toggleWidget.hideCss = "";
+              });
+          } else {
+            toggleWidget.webContents
+              .insertCSS(`* { opacity: 0 !important; }`)
+              .then((key) => {
+                toggleWidget.hideCss = key;
+              });
+          }
+        }
       }
     });
   }
@@ -110,6 +140,7 @@ export class Display extends BrowserWindow {
     console.log(bounds);
     this.addBrowserView(widget);
     widget.setBounds(bounds);
+    this.widgets.add(widget);
   }
 
   protected removeWidget(widget: Widget) {
@@ -123,5 +154,6 @@ export class Display extends BrowserWindow {
     });
     */
     this.removeBrowserView(widget);
+    this.widgets.delete(widget);
   }
 }

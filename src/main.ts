@@ -20,10 +20,11 @@ import { createTrayMenu } from "./tray-menu";
 app.commandLine.appendArgument("--enable-features=Metal");
 
 import { stuff } from "./sample-display";
-import { WebcamWidget } from "./widgets/webcam-widget";
+import { WebcamWidget } from "./widgets/webcam/webcam-widget";
 import { DesktopCaptureWidget } from "./widgets/desktop-capture-widget";
 import { YoutubeWidget } from "./widgets/youtube-widget";
 import { QrCodeWidget } from "./widgets/qr-code-widget";
+import { AnnotationWidget } from "./widgets/annotation-widget";
 
 const WIDGETS = {
   web: WebWidget,
@@ -32,6 +33,7 @@ const WIDGETS = {
   "desktop-capture": DesktopCaptureWidget,
   youtube: YoutubeWidget,
   qrcode: QrCodeWidget,
+  annotation: AnnotationWidget,
 };
 
 function createDisplay(json: any) {
@@ -40,6 +42,7 @@ function createDisplay(json: any) {
     simpleFullscreen: true,
     //    alwaysOnTop: true,
     frame: process.platform === "darwin",
+    title: `Looking Glass Display`,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -61,6 +64,8 @@ function createDisplay(json: any) {
     if (!Array.isArray(json)) {
       json = [json];
     }
+
+    display.setTitle(`Lookin Glass Display [${json.length} widgets]`);
 
     console.log(json);
     for (let config of json) {

@@ -1,4 +1,4 @@
-import { Widget, WidgetConstructorOptions } from "../widget";
+import { Widget, WidgetConstructorOptions } from "../../widget";
 
 export interface WebcamWidgetConstructorOptions
   extends WidgetConstructorOptions {
@@ -9,8 +9,11 @@ export class WebcamWidget extends Widget {
   constructor(opts: WebcamWidgetConstructorOptions) {
     super(opts);
 
-    this.webContents.loadFile("../widgets/webcam.html", {
+    this.loadFile("webcam/webcam.html", { source: opts.source || "" });
+    /*
+    this.webContents.loadFile(__dirname + "/webcam.html", {
       search: `source=${opts.source || ""}`,
     });
+    */
   }
 }

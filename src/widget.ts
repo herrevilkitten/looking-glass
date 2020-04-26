@@ -5,6 +5,7 @@ import {
   Rectangle,
 } from "electron";
 import { Display } from "./display";
+import { join } from "path";
 
 export const GRID_HEIGHT = 12;
 export const GRID_WIDTH = 12;
@@ -62,7 +63,7 @@ function getBoundsForGrid(grid: WidgetGrid, target: Display): Rectangle {
         );
         break;
       case "upper-right":
-        transformedGrid.position = GRID_WIDTH - transformedGrid.width;
+        transformedGrid.position = GRID_WIDTH - transformedGrid.width + 1;
         break;
       case "left":
         {
@@ -161,18 +162,19 @@ export interface WidgetGridLocation {
 export type WidgetGrid = WidgetGridLocation;
 
 export interface WidgetConstructorOptions
-  extends BrowserViewConstructorOptions {
+  extends BrowserViewConstructorOptions,
+    WidgetGridLocation {
   bounds?: Rectangle;
   // grid?: WidgetGrid;
   url?: string;
   file?: string;
   transparent?: boolean;
   opacity?: number;
-
+  /*
   position?: "full" | GridPosition;
   width?: GridSize;
   height?: GridSize;
-  size?: GridSize;
+  size?: GridSize;*/
   name?: string;
 }
 
@@ -183,6 +185,7 @@ export class Widget extends BrowserView {
   height: GridSize;
   size: GridSize;
   name: string;
+  hideCss?: string;
 
   constructor(opts?: WidgetConstructorOptions) {
     super(
@@ -200,7 +203,7 @@ export class Widget extends BrowserView {
     this.size = "full";
 
     this.setBackgroundColor("#0000");
-    /*
+
     this.webContents.on("before-input-event", (event, input) => {
       //      console.log(event);
       //      console.log(input);
@@ -217,7 +220,7 @@ export class Widget extends BrowserView {
         }
       }
     });
-*/
+
     if (opts) {
       if (opts.name) {
         this.name = opts.name;
@@ -278,5 +281,27 @@ export class Widget extends BrowserView {
     this.setBounds(bounds);
 
     this.attached = target;
+  }
+
+  loadFile(path: string, search?: { [name: string]: any }) {
+    const opts: any = {};
+
+    const widgethPath = join(__dirname, "widgets", path);
+
+    if (search && Object.keys(search).length > 0) {
+      opts.search = "";
+      const entries = [];
+
+      for (let [key, value] of Object.entries(search)) {
+        const transformedKey = encodeURIComponent(key);
+        const transformedValue = encodeURIComponent(
+          value === null || value === undefined ? "" : value
+        );
+        entries.push(`${transformedKey}=${transformedValue}`);
+      }
+      opts.search = entries.join("&");
+    }
+
+    this.webContents.loadFile(widgethPath, opts);
   }
 }

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc && copy-files-from-to",
     "start": "electron dist/main",
     "build-start": "npm run build && npm run start"
   },
@@ -16,6 +16,7 @@
     "@types/morgan": "^1.9.0",
     "@types/node": "^12.x.x",
     "@types/socket.io": "^2.1.4",
+    "copy-files-from-to": "^2.3.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
@@ -24,5 +25,11 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "socket.io": "^2.3.0"
-  }
+  },
+  "copyFiles": [
+    {
+      "from": "src/**/*.html",
+      "to": "dist"
+    }
+  ]
 }
