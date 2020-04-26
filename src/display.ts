@@ -21,48 +21,52 @@ export class Display extends BrowserWindow {
     this.addLayer(new Layer());
 
     this.webContents.on("before-input-event", (event, input) => {
-      console.log(input);
-      let meta = false;
-      if (process.platform === "darwin") {
-        meta = input.meta;
-      } else {
-        meta = input.control;
-      }
+      this.handleInput(input);
+    });
+  }
 
-      if (meta) {
-        if (input.code === "KeyW") {
-          this.close();
+  handleInput(input: Electron.Input) {
+    console.log(input);
+    let meta = false;
+    if (process.platform === "darwin") {
+      meta = input.meta;
+    } else {
+      meta = input.control;
+    }
+
+    if (meta) {
+      if (input.code === "KeyW") {
+        this.close();
+        return;
+      } else if (input.code.startsWith("Digit")) {
+        const widgetNumber = Number(input.code.replace("Digit", ""));
+        if (widgetNumber === 0) {
           return;
-        } else if (input.code.startsWith("Digit")) {
-          const widgetNumber = Number(input.code.replace("Digit", ""));
-          if (widgetNumber === 0) {
-            return;
-          }
-          const widgetArray = Array.from(this.widgets);
-          console.log(widgetNumber);
-          console.log(this.widgets);
-          const toggleWidget = widgetArray[widgetNumber - 1];
-          if (!toggleWidget) {
-            console.warn(`No widget matching ${widgetNumber}`);
-            return;
-          }
+        }
+        const widgetArray = Array.from(this.widgets);
+        console.log(widgetNumber);
+        console.log(this.widgets);
+        const toggleWidget = widgetArray[widgetNumber - 1];
+        if (!toggleWidget) {
+          console.warn(`No widget matching ${widgetNumber}`);
+          return;
+        }
 
-          if (toggleWidget.hideCss) {
-            toggleWidget.webContents
-              .removeInsertedCSS(toggleWidget.hideCss)
-              .then(() => {
-                toggleWidget.hideCss = "";
-              });
-          } else {
-            toggleWidget.webContents
-              .insertCSS(`* { opacity: 0 !important; }`)
-              .then((key) => {
-                toggleWidget.hideCss = key;
-              });
-          }
+        if (toggleWidget.hideCss) {
+          toggleWidget.webContents
+            .removeInsertedCSS(toggleWidget.hideCss)
+            .then(() => {
+              toggleWidget.hideCss = "";
+            });
+        } else {
+          toggleWidget.webContents
+            .insertCSS(`* { opacity: 0 !important; }`)
+            .then((key) => {
+              toggleWidget.hideCss = key;
+            });
         }
       }
-    });
+    }
   }
 
   paint() {

@@ -1,6 +1,6 @@
 import { Display } from "./display";
 import { Widget } from "./widget";
-import { WebWidget } from "./widgets/web-widget";
+import { WebWidget } from "./widgets/web/web-widget";
 import { ipcMain } from "electron";
 
 export function stuff() {

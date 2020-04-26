@@ -1,4 +1,4 @@
-import { Widget, WidgetConstructorOptions } from "../widget";
+import { Widget, WidgetConstructorOptions } from "../../widget";
 import { desktopCapturer } from "electron";
 
 export interface DesktopCaptureidgetConstructorOptions

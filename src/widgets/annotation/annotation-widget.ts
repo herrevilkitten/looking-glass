@@ -1,4 +1,4 @@
-import { Widget, WidgetConstructorOptions } from "../widget";
+import { Widget, WidgetConstructorOptions } from "../../widget";
 
 export interface AnnotationWidgetConstructionOptions
   extends WidgetConstructorOptions {
@@ -12,8 +12,6 @@ export class AnnotationWidget extends Widget {
     super(opts);
 
     this.source = opts.source;
-    this.webContents.loadFile(__dirname + "/annotation.html", {
-      search: `source=${opts.source || ""}`,
-    });
+    this.loadFile("annotation");
   }
 }

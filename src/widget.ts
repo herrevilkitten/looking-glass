@@ -179,7 +179,7 @@ export interface WidgetConstructorOptions
 }
 
 export class Widget extends BrowserView {
-  attached?: BrowserWindow;
+  attached?: Display;
   position: "full" | GridPosition;
   width: GridSize;
   height: GridSize;
@@ -205,19 +205,8 @@ export class Widget extends BrowserView {
     this.setBackgroundColor("#0000");
 
     this.webContents.on("before-input-event", (event, input) => {
-      //      console.log(event);
-      //      console.log(input);
-      let meta = false;
-      if (process.platform === "darwin") {
-        meta = input.meta;
-      } else {
-        meta = input.control;
-      }
-
-      if (input.code === "KeyW" && meta) {
-        if (this.attached) {
-          this.attached.close();
-        }
+      if (this.attached) {
+        this.attached.handleInput(input);
       }
     });
 
@@ -283,10 +272,10 @@ export class Widget extends BrowserView {
     this.attached = target;
   }
 
-  loadFile(path: string, search?: { [name: string]: any }) {
+  loadFile(name: string, search?: { [name: string]: any }) {
     const opts: any = {};
 
-    const widgethPath = join(__dirname, "widgets", path);
+    const widgethPath = join(__dirname, "widgets", name, `${name}.html`);
 
     if (search && Object.keys(search).length > 0) {
       opts.search = "";

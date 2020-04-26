@@ -31,5 +31,8 @@
       "from": "src/**/*.html",
       "to": "dist"
     }
-  ]
+  ],
+  "copyFilesSettings": {
+    "whenFileExists": "overwrite"
+  }
 }

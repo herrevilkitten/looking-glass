@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        box-shadow: inset 0 0 10px purple;
+      }
+
+      * {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: rgba(0, 0, 0, 0);
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@latest/dist/svg.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const { ipcRenderer } = require("electron");
+
+      SVG.on(document, "DOMContentLoaded", function () {
+        const draw = SVG().addTo("body").size("100%", "100%");
+
+        const height = window.screen.height;
+        const width = window.screen.width;
+
+        let isDrawing = false;
+        let path;
+
+        draw.on("mousedown", (event) => {
+          console.log("down", event);
+          isDrawing = true;
+          path = draw.path(`M${event.offsetX} ${event.offsetY}`);
+          path.attr({
+            "fill-opacity": 0,
+          });
+          path.stroke({
+            color: "#f06",
+            width: 2,
+            linecap: "round",
+            linejoin: "round",
+          });
+        });
+
+        draw.on("mouseup", (event) => {
+          console.log("up", event);
+          isDrawing = false;
+          path = null;
+        });
+
+        draw.on("mousemove", (event) => {
+          if (path) {
+            console.log("move", event);
+            console.log(path.attr());
+            const d = path.attr("d");
+            path.plot(d + ` L${event.offsetX} ${event.offsetY}`);
+            path.stroke({
+              color: "#f06",
+              width: 2,
+              linecap: "round",
+              linejoin: "round",
+            });
+          }
+        });
+
+        ipcRenderer.on("indexFinger", (event, coordinates) => {
+          console.log(coordinates);
+          const [x, y, z] = coordinates;
+          draw.circle(20).fill("#0f0").move(x, y);
+        });
+      });
+    </script>
+  </body>
+</html>

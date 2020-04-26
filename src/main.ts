@@ -12,7 +12,7 @@ import { Display } from "./display";
 import { Widget } from "./widget";
 import { Layer } from "./layer";
 import { RemoteControlWidget } from "./widgets/remote-control-widget";
-import { WebWidget } from "./widgets/web-widget";
+import { WebWidget } from "./widgets/web/web-widget";
 import { RemoteControlServer } from "./server";
 import { DisplayManager } from "./display-manager";
 import { createTrayMenu } from "./tray-menu";
@@ -21,10 +21,10 @@ app.commandLine.appendArgument("--enable-features=Metal");
 
 import { stuff } from "./sample-display";
 import { WebcamWidget } from "./widgets/webcam/webcam-widget";
-import { DesktopCaptureWidget } from "./widgets/desktop-capture-widget";
-import { YoutubeWidget } from "./widgets/youtube-widget";
-import { QrCodeWidget } from "./widgets/qr-code-widget";
-import { AnnotationWidget } from "./widgets/annotation-widget";
+import { DesktopCaptureWidget } from "./widgets/desktop-capture/desktop-capture-widget";
+import { YoutubeWidget } from "./widgets/youtube/youtube-widget";
+import { QrCodeWidget } from "./widgets/qr-code/qr-code-widget";
+import { AnnotationWidget } from "./widgets/annotation/annotation-widget";
 
 const WIDGETS = {
   web: WebWidget,
