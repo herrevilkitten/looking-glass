@@ -26,6 +26,9 @@ export class Display extends BrowserWindow {
   }
 
   handleInput(input: Electron.Input) {
+    if (input.type !== "keyUp") {
+      return;
+    }
     console.log(input);
     let meta = false;
     if (process.platform === "darwin") {
